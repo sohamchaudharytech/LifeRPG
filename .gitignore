@@ -28,3 +28,8 @@ credentials.txt
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# Development plan
+prd.md
+progress.md
+RULES.md

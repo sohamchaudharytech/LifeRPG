@@ -9,6 +9,7 @@ interface LocalDatabase {
   users: any[];
   quests: any[];
   history: any[];
+  otps: any[];
 }
 
 function ensureDataFile(): LocalDatabase {
@@ -16,15 +17,17 @@ function ensureDataFile(): LocalDatabase {
     fs.mkdirSync(DATA_DIR, { recursive: true });
   }
   if (!fs.existsSync(DB_FILE)) {
-    const initial: LocalDatabase = { users: [], quests: [], history: [] };
+    const initial: LocalDatabase = { users: [], quests: [], history: [], otps: [] };
     fs.writeFileSync(DB_FILE, JSON.stringify(initial, null, 2), "utf-8");
     return initial;
   }
   try {
     const content = fs.readFileSync(DB_FILE, "utf-8");
-    return JSON.parse(content);
+    const parsed = JSON.parse(content);
+    if (!parsed.otps) parsed.otps = [];
+    return parsed;
   } catch {
-    const initial: LocalDatabase = { users: [], quests: [], history: [] };
+    const initial: LocalDatabase = { users: [], quests: [], history: [], otps: [] };
     fs.writeFileSync(DB_FILE, JSON.stringify(initial, null, 2), "utf-8");
     return initial;
   }

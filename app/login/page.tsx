@@ -93,12 +93,20 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label
-                htmlFor="password"
-                className="block text-xs font-mono uppercase text-slate-300 mb-1.5"
-              >
-                Passcode *
-              </label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label
+                  htmlFor="password"
+                  className="block text-xs font-mono uppercase text-slate-300"
+                >
+                  Passcode *
+                </label>
+                <Link
+                  href="/forgot-password"
+                  className="text-xs font-mono text-cyan-400 hover:text-cyan-300 transition-colors underline underline-offset-2"
+                >
+                  Forgot Passcode?
+                </Link>
+              </div>
               <div className="relative">
                 <KeyRound className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input

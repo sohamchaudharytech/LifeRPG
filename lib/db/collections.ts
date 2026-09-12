@@ -5,8 +5,10 @@ import { FallbackCollection, getLocalDatabase } from "./fallbackStore";
 const fallbackUsers = new FallbackCollection("users");
 const fallbackQuests = new FallbackCollection("quests");
 const fallbackHistory = new FallbackCollection("history");
+const fallbackOtps = new FallbackCollection("otps");
 
 let hasSyncedLocalData = false;
+
 
 async function syncLocalDataToMongo(db: Db): Promise<void> {
   if (hasSyncedLocalData) return;
@@ -122,4 +124,18 @@ export async function getHistoryCollection(): Promise<any> {
     return fallbackHistory;
   }
 }
+
+export async function getOtpsCollection(): Promise<any> {
+  try {
+    const db = await getDatabase();
+    const collection = db.collection("otps");
+    collection.createIndex({ email: 1, type: 1 }).catch(() => {});
+    collection.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 }).catch(() => {});
+    return collection;
+  } catch (err: any) {
+    handleDbError(err, "otps");
+    return fallbackOtps;
+  }
+}
+
 

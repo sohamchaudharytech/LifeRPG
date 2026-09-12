@@ -4,6 +4,7 @@ import { getUsersCollection } from "@/lib/db/collections";
 import { hashPassword } from "@/lib/auth/password";
 import { setAuthCookie } from "@/lib/auth/session";
 import { seedStarterQuests } from "@/lib/db/seedStarterQuests";
+import { verifyAndConsumeOtp } from "@/lib/auth/otp";
 
 export async function POST(request: Request) {
   try {
@@ -17,9 +18,25 @@ export async function POST(request: Request) {
       );
     }
 
-    const { username, email, password } = parseResult.data;
+    const { username, email, password, otp } = parseResult.data;
     const normalizedEmail = email.toLowerCase().trim();
+
+    // 1. Verify and consume 8-digit OTP
+    const otpResult = await verifyAndConsumeOtp({
+      email: normalizedEmail,
+      otp,
+      type: "registration",
+    });
+
+    if (!otpResult.valid) {
+      return NextResponse.json(
+        { error: otpResult.error || "Invalid verification code." },
+        { status: 400 }
+      );
+    }
+
     const usersCollection = await getUsersCollection();
+
 
     // Check duplicate email
     const existingEmail = await usersCollection.findOne({ email: normalizedEmail });
