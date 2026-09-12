@@ -23,7 +23,13 @@ Render account available	✅
 GitHub repository	✅
 Next.js project	✅
 MongoDB connection	✅
-JWT authentication	⏳
+JWT authentication	✅
+User model & starter onboarding	✅
+Quest CRUD	✅
+RPG engine (XP/level/rewards)	✅
+Completion flow & history	✅
+Attributes & streak system	✅
+Virtual economy & shop	✅
 Production deployment	⏳
 
 Technology Stack
@@ -289,8 +295,36 @@ Example:
 ### Known Issues
 - None.
 
+## Update — 12 Sep 2026 (Steps 3 through 9 Completed)
+
+### Completed
+- Step 3 (JWT Auth): Edge-compatible JWT signing and verification using `jose`, secure HTTP-only cookies, bcrypt password hashing, and authentication route handlers (/api/auth/register, /api/auth/login, /api/auth/logout, /api/auth/me) with Next.js edge middleware.
+- Step 4 (User Model): Safe user modeling, attribute initialization (STR, INT, DIS, VIT, CRE starting at 1), 50 gold starter bonus, and starter quest seeding.
+- Step 5 (Quest CRUD): Full task management endpoints (/api/tasks, /api/tasks/[id]) with strict user data isolation, category and difficulty filters, and Zod input validation.
+- Step 6 (RPG Engine): Centralized mathematical engine in `lib/rpg/engine.ts` enforcing non-linear exponential leveling (`Math.floor(100 * Math.pow(level, 1.5))`), difficulty-based rewards, attribute bonuses, and UTC calendar streak tracking.
+- Step 7 (Quest Completion & History): `/api/tasks/[id]/complete` endpoint preventing duplicate completion, awarding authoritatively calculated XP and Gold, checking level-ups, updating streaks, and persisting immutable history records.
+- Step 8 (Attributes & Streaks): `/api/character` endpoint with real-time stat meters, 6 dynamic achievement badges, and streak milestones.
+- Step 9 (Gold & Shop): `/api/shop` and `/api/shop/[itemId]/purchase` endpoints with server-side gold balance validation, unique cosmetics ownership verification, inventory persistence, and item equipping (/api/character/equip).
+
+### Files Changed
+- lib/auth/jwt.ts, lib/auth/password.ts, lib/auth/session.ts, middleware.ts
+- lib/validation/auth.ts, lib/validation/quest.ts
+- lib/db/seedStarterQuests.ts, lib/rpg/engine.ts, lib/rpg/shopCatalog.ts
+- app/api/auth/register/route.ts, app/api/auth/login/route.ts, app/api/auth/logout/route.ts, app/api/auth/me/route.ts
+- app/api/tasks/route.ts, app/api/tasks/[id]/route.ts, app/api/tasks/[id]/complete/route.ts
+- app/api/character/route.ts, app/api/character/equip/route.ts, app/api/history/route.ts
+- app/api/shop/route.ts, app/api/shop/[itemId]/purchase/route.ts
+- scripts/test-auth.ts, scripts/test-gameplay-loop.ts
+
+### Tests
+- scripts/test-auth.ts: PASS (Password hashing, JWT signing/verification, MongoDB user insertion)
+- scripts/test-gameplay-loop.ts: PASS (RPG formulas, Quest creation, Completion, Level progression, Gold rewards, Attribute gains, Streak tracking, Shop purchase balance validation, Inventory persistence, Item equip)
+
+### Known Issues
+- None.
+
 ### Next Task
-- Step 3: Implement JWT authentication, session handling, and auth API routes (/api/auth/register, /api/auth/login, /api/auth/logout, /api/auth/me).
+- Step 10: Implement Authenticated Dashboard UI with character header, XP progress bar, attribute cards, active quest list, and quick completion.
 
 Never mark a feature complete without testing it.
 Definition of "Complete"
