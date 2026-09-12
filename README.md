@@ -125,12 +125,27 @@ npm run build
 
 ---
 
-## 🌐 Production Deployment (Render)
+## 🌐 Production Deployment
 
-This repository includes a native `render.yaml` specification.
-1. Connect your repository to Render.
-2. Under Environment Variables, supply `MONGODB_URI` and `JWT_SECRET`.
-3. Render runs `npm install && npm run build` and starts the app with `npm run start`.
+### Option A: Vercel (Recommended for Next.js)
+
+Vercel natively optimizes Next.js 14 App Router with instant edge routing and serverless functions:
+1. Push your repository to GitHub.
+2. Log into [Vercel](https://vercel.com) and click **Add New...** -> **Project**.
+3. Import your GitHub repository (`LifeRPG`).
+4. Under **Environment Variables**, add:
+   - `MONGODB_URI`: Your MongoDB Atlas connection string.
+   - `JWT_SECRET`: A secure random secret string (min 32 characters).
+   - `EMAILJS_SERVICE_ID`: EmailJS Service ID (optional, for OTP emails).
+   - `EMAILJS_TEMPLATE_ID`: EmailJS Template ID (optional).
+   - `EMAILJS_PUBLIC_KEY`: EmailJS Public Key (optional).
+   - `EMAILJS_PRIVATE_KEY`: EmailJS Private Key (optional).
+5. Click **Deploy**. Vercel automatically detects Next.js using `vercel.json` and provisions the site with a live HTTPS URL.
+
+### Option B: Render
+
+This repository includes a native `render.yaml` specification for Render web services with automatic health checks pointing to `/api/health`.
+
 
 ---
 

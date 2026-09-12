@@ -19,28 +19,18 @@ if (!uri) {
 }
 
 export function getMongoClientPromise(): Promise<MongoClient> {
-  if (process.env.NODE_ENV === "development") {
-    if (!global._mongoClientPromise) {
-      const client = new MongoClient(uri, options);
-      global._mongoClientPromise = client.connect().catch((err) => {
-        global._mongoClientPromise = undefined; // Reset on failure so next request can retry
-        throw err;
-      });
-    }
-    return global._mongoClientPromise;
-  } else {
-    if (!clientPromise) {
-      const client = new MongoClient(uri, options);
-      clientPromise = client.connect().catch((err) => {
-        clientPromise = null; // Reset on failure so next request can retry
-        throw err;
-      });
-    }
-    return clientPromise;
+  if (!global._mongoClientPromise) {
+    const client = new MongoClient(uri, options);
+    global._mongoClientPromise = client.connect().catch((err) => {
+      global._mongoClientPromise = undefined; // Reset on failure so next request can retry
+      throw err;
+    });
   }
+  return global._mongoClientPromise;
 }
 
 export default getMongoClientPromise;
+
 
 export async function getDatabase(dbName: string = "liferpg"): Promise<Db> {
   const connectedClient = await getMongoClientPromise();

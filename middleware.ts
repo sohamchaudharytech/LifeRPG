@@ -6,7 +6,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "liferpg_super_secure_jwt_token_sec
 const key = new TextEncoder().encode(JWT_SECRET);
 
 const protectedRoutes = ["/dashboard", "/quests", "/character", "/shop", "/history"];
-const authRoutes = ["/login", "/register"];
+const authRoutes = ["/login", "/register", "/forgot-password"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -47,5 +47,7 @@ export const config = {
     "/history/:path*",
     "/login",
     "/register",
+    "/forgot-password",
   ],
 };
+
