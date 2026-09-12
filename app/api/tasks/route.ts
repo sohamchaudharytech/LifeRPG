@@ -38,7 +38,7 @@ export async function GET(request: Request) {
       .sort({ createdAt: -1 })
       .toArray();
 
-    const formattedQuests = quests.map((q) => ({
+    const formattedQuests = quests.map((q: any) => ({
       _id: q._id.toString(),
       userId: q.userId,
       title: q.title,

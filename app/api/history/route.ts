@@ -16,7 +16,7 @@ export async function GET() {
       .limit(50)
       .toArray();
 
-    const formatted = records.map((r) => ({
+    const formatted = records.map((r: any) => ({
       _id: r._id.toString(),
       questId: r.questId,
       questTitle: r.questTitle,

@@ -30,6 +30,12 @@ function ensureDataFile(): LocalDatabase {
   }
 }
 
+export function getLocalDatabase(): LocalDatabase {
+  return ensureDataFile();
+}
+
+
+
 function saveData(data: LocalDatabase) {
   try {
     if (!fs.existsSync(DATA_DIR)) {
