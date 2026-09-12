@@ -150,7 +150,7 @@ async function runGameplayLoopTest() {
       { _id: userInsert.insertedId },
       {
         $set: { gold: newGold },
-        $push: { inventory: { itemId: bronzeFrame.id, quantity: 1, purchasedAt: new Date().toISOString() } },
+        $push: { inventory: { itemId: bronzeFrame.id, quantity: 1, purchasedAt: new Date().toISOString() } } as any,
       }
     );
 
